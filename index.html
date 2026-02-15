@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Ilyass 💖 Romantic Rain</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #ff9eb0, #ffc0cb, #ffb6c1);
+  color: white;
+  overflow: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Background animated gradient */
+@keyframes gradientShift {
+  0% { background: linear-gradient(135deg, #ff9eb0, #ffc0cb, #ffb6c1); }
+  50% { background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ff1493); }
+  100% { background: linear-gradient(135deg, #ff9eb0, #ffc0cb, #ffb6c1); }
+}
+
+body {
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Page transitions */
+section {
+  display: none;
+  padding: 40px;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  animation: pageIn 0.8s ease-in-out;
+  backdrop-filter: blur(5px);
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Rain hearts & emojis */
+.rainSymbol {
+  position: fixed;
+  font-size: 20px;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+/* Floating hearts */
+.floating {
+  position: fixed;
+  font-size: 40px;
+  opacity: 0.9;
+  animation: floatUp 6s ease-in infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Inputs and buttons */
+input[type="text"],
+input[type="file"],
+textarea {
+  padding: 14px;
+  font-size: 16px;
+  width: 80%;
+  max-width: 500px;
+  margin: 15px 0;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+button {
+  padding: 16px 40px;
+  margin: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff6b9d, #ff1493);
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 20, 147, 0.6);
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+/* Page 1 styles */
+#page1 h1 {
+  font-size: 3.5em;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+  animation: titleBounce 2s ease-in-out infinite;
+}
+
+@keyframes titleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+#page1 p {
+  font-size: 24px;
+  margin: 40px 0;
+  animation: fadeInText 2s ease-in;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Love question styling */
+#loveMsg {
+  margin-top: 30px;
+  font-size: 28px;
+  color: #ffebef;
+  animation: fadeIn 2s ease-out;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Quiz container */
+.quiz-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#question {
+  font-size: 26px;
+  margin: 30px 0;
+  min-height: 80px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+#questionCounter {
+  font-size: 16px;
+  margin: 15px 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: bold;
+}
+
+#answerInput {
+  min-height: 60px;
+  padding: 15px;
+}
+
+/* Final page - Page 5 Styles */
+#page5 {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.valentines-container {
+  text-align: center;
+  animation: pageIn 1.2s ease-in-out;
+}
+
+#page5 h1 {
+  font-size: 3.2em;
+  margin-bottom: 20px;
+  animation: titleBounce 2s ease-in-out infinite;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.happy-valentine {
+  font-size: 2.8em;
+  font-weight: bold;
+  color: #ffebef;
+  margin: 20px 0;
+  animation: heartBeat 1.5s ease-in-out infinite;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.je-taime {
+  font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+  font-size: 4.5em;
+  font-weight: bold;
+  color: #ffebef;
+  margin: 30px 0;
+  animation: scaleGrow 1.5s ease-in-out infinite;
+  text-shadow: 3px 3px 15px rgba(255, 20, 147, 0.8);
+  letter-spacing: 3px;
+  filter: drop-shadow(0 0 25px rgba(255, 20, 147, 0.6));
+}
+
+@keyframes scaleGrow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.heart-animation {
+  display: inline-block;
+  font-size: 3em;
+  margin: 0 10px;
+  animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+.heart-animation:nth-child(1) { animation-delay: 0s; }
+.heart-animation:nth-child(2) { animation-delay: 0.15s; }
+.heart-animation:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1.35); }
+  75% { transform: scale(1.2); }
+}
+
+.hearts-row {
+  font-size: 2.5em;
+  margin: 20px 0;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.bigHeartFinal {
+  font-size: 220px;
+  animation: heartBeat 1.5s ease-in-out infinite;
+  margin: 30px 0;
+  filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.8));
+}
+
+/* Answers display */
+#allAnswers {
+  text-align: left;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  margin-top: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+#allAnswers h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ffebef;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#allAnswers ol {
+  padding-left: 30px;
+}
+
+#allAnswers li {
+  margin: 15px 0;
+  font-size: 18px;
+  line-height: 1.6;
+  animation: answerSlide 0.6s ease-out backwards;
+  color: #fff;
+}
+
+#allAnswers li:nth-child(1) { animation-delay: 0.1s; }
+#allAnswers li:nth-child(2) { animation-delay: 0.2s; }
+#allAnswers li:nth-child(3) { animation-delay: 0.3s; }
+#allAnswers li:nth-child(4) { animation-delay: 0.4s; }
+#allAnswers li:nth-child(5) { animation-delay: 0.5s; }
+#allAnswers li:nth-child(6) { animation-delay: 0.6s; }
+#allAnswers li:nth-child(7) { animation-delay: 0.7s; }
+#allAnswers li:nth-child(8) { animation-delay: 0.8s; }
+#allAnswers li:nth-child(9) { animation-delay: 0.9s; }
+#allAnswers li:nth-child(10) { animation-delay: 1s; }
+#allAnswers li:nth-child(11) { animation-delay: 1.1s; }
+#allAnswers li:nth-child(12) { animation-delay: 1.2s; }
+
+@keyframes answerSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Status messages */
+#codeStatus {
+  margin-top: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  animation: fadeIn 0.6s ease-out;
+}
+
+h1 {
+  font-size: 3em;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+}
+
+p {
+  font-size: 20px;
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+/* Music player styling */
+#musicToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ff6b9d, #ff1493);
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+#musicToggle:hover {
+  transform: scale(1.1);
+}
+
+@keyframes musicPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+#musicToggle.playing {
+  animation: musicPulse 1s ease-in-out infinite;
+}
+
+/* Sparkles effect */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  animation: sparkleAnim 1s ease-out forwards;
+  font-size: 20px;
+  z-index: 3;
+}
+
+@keyframes sparkleAnim {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0);
+  }
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b9d, #ff1493, #ff69b4);
+  width: 0%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2em; }
+  p { font-size: 18px; }
+  button { padding: 12px 30px; font-size: 16px; }
+  input, textarea { width: 90%; }
+  .quiz-container { padding: 25px; }
+  .bigHeartFinal { font-size: 120px; }
+  .je-taime { font-size: 2.8em; }
+  .happy-valentine { font-size: 2em; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- Music toggle button -->
+<button id="musicToggle" onclick="toggleMusic()" title="Toggle Music">🎵</button>
+
+<!-- Pages -->
+<section id="page1" class="active">
+  <h1>💖 Welcome my nonosi 💖</h1>
+  <p style="font-size: 22px; margin: 40px 0;">Khas tkhtr something special...🌻</p>
+  <p style="font-size: 18px; color: rgba(255, 255, 255, 0.9);">A journey of love awaits you ✨</p>
+  <button onclick="startMusic()" style="font-size: 20px; padding: 18px 50px;">
+    Next ➡️ 💕
+  </button>
+</section>
+
+<section id="page2">
+  <h1>Ilyass.... Do you love me?😻🌾</h1>
+  <p style="font-size: 24px; margin: 40px 0;">gol yes⚘ wakha tkon kdba mhm tl3 li moral... 💘</p>
+  <div style="margin-top: 50px;">
+    
+    <button onclick="loveYes()" style="background: linear-gradient(135deg, #28a745, #20c997); font-size: 24px; padding: 20px 60px;">
+      Yes 😻 Bezzaf
+    </button>
+    <button onclick="alert('Try again 😉 I knew it... wana tanlovek ktr o bzaaaf🧸💋)" style="background: linear-gradient(135deg, #dc3545, #c82333); font-size: 24px; padding: 20px 60px;">
+      No 😿
+    </button>
+  </div>
+  <div id="loveMsg" style="margin-top: 40px; font-size: 28px; color: #ffebef; display: none;"></div>
+</section>
+
+<section id="page3">
+  <h1>🔒 Unlock The Quiz 🔐</h1>
+  <p style="font-size: 20px; margin: 30px 0;">code 3ibara 3an image kayna 3ndk tatjm3 binatna, fkr chnahiya 🦋🍒🙊</p>
+  <input type="file" id="imageInput" accept="image/*">
+  <p id="codeStatus" style="margin-top: 30px; font-size: 18px;"></p>
+</section>
+
+<section id="page4">
+  <div class="quiz-container">
+    <h1>Quiz: 3la 3al9tna 💌</h1>
+    <div id="question"></div>
+    <div id="questionCounter"></div>
+    <textarea id="answerInput" placeholder="3br liya 3la ay haja nta hass biha...🎀🌺"></textarea>
+    <br>
+    <button onclick="submitAnswer()">Next Question ➡️</button>
+  </div>
+</section>
+
+<section id="page5">
+
+      <div style="margin: 40px 0;">
+      
+    <span class="heart-animation">♡</span>
+      </div>
+    
+    <div class="je-taime">Je t'aime💐</div>
+    
+    <div class="bigHeartFinal">🧸</div>
+    
+    <p style="font-size: 22px; margin: 20px 0; color: #ffebef;">tanhma9 3lik🌻👑</p>
+    <div id="allAnswers"></div>
+    
+    <div class="hearts-row" style="margin-top: 30px;">😺scrini liya résulta dyal quiz😺</div>
+    
+    <button onclick="location.reload()" style="margin-top: 40px; font-size: 18px;">Start Over Again 🔄</button>
+  </div>
+</section>
+
+<audio id="music" loop></audio>
+
+<script>
+// ===== Variables =====
+let currentQ = 0;
+const userAnswers = [];
+const correctHash = "5f96e486f38df258748936d37f1fb629e477337752de9d2d6fac6fb30918c5f7",
+const questions = [
+  "🎀 Chno hiya lhaja li kat3jbk fia bzaf omatatgolahch lia?😻",
+  "🎀Chnahiya lhaja li tatkhaf tf9dha fhad lrelation dyalna?🧸",
+  "🎀Chnahiya lhda li 3mrha tnsa lik binatna?💋",
+  "🎀Chno aktr haja katkhlik ths m3aya bl aman?⚘",
+  "🎀Chnahiya lhaja li tatfrhk mli tfkr fiha bini obink?💕",
+  "🎀Katfkr fmosta9balna... Chno howa lhlom?🌺",
+  "🎀Kaths dsa3ada m3aya fhad lrelation(darori z3ma smiytu SAIDa🤭)?🦋",
+  "🎀Chno aktr klma ola tasarof mni kaykhlik tsh b hoob?💍",
+  "🎀Chna howa lholm li biti th99 m3aya?🧚🏼‍♀️",
+  "🎀Kaths bhob dyalna broghm had machakil odoraf lidwzna?💝",
+  "🎀Chna howa raeyk fhad lmachkil kamla o dorf lidazt 3lina?🌻",
+  "🎀3ndk chi haja tsarhni biha mrhba... jodda ola chno?🌾",
+  "🎀3mrk maghatfkr tb3d 3liya?🥺",
+  "🎀chnahoma lhwayj li matay3jbokch fia?🌸",
+  "🎀3br liya 3lach ana o machi chi whda khra?💐",
+];
+
+const emojis = ['❤️', '💖', '😻', '😺', '💞', '💗', '🌺', '💋', '💍', '🤗', '🦋', '🍒', '💏', '🍃', '🎀', '🧸', '💕', '🌹', '✨', '💝', '🎁', '💗', '💘', '🎉', '✨', '🌟', '⭐'];
+const rainSymbols = ['❤️', '💖', '😻', '😺', '💞', '💗', '🌺', '💋', '💍', '🤗', '🦋', '🍒', '💏', '🍃', '🎀', '🧸', '✨', '🌟', '⭐', '💫', '💘', '🎉'];
+
+// ===== Core Functions =====
+function showPage(id) {
+  document.querySelectorAll('section').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const section = document.getElementById(id);
+  section.style.display = 'flex';
+  setTimeout(() => section.classList.add('active'), 10);
+  updateProgressBar();
+}
+
+function updateProgressBar() {
+  const pages = ['page1', 'page2', 'page3', 'page4', 'page5'];
+  const activeSections = document.querySelectorAll('section.active');
+  if (activeSections.length > 0) {
+    const currentPageId = activeSections[0].id;
+    const progress = (pages.indexOf(currentPageId) + 1) / pages.length * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+  }
+}
+
+function nextPage(id) {
+  showPage(id);
+}
+
+// ===== Music Management =====
+let isPlaying = false;
+
+function toggleMusic() {
+  const audio = document.getElementById("music");
+  const btn = document.getElementById("musicToggle");
+  
+  if (isPlaying) {
+    audio.pause();
+    isPlaying = false;
+    btn.classList.remove('playing');
+    btn.textContent = '🔇';
+  } else {
+    audio.play().catch(e => {
+      console.log("Audio not available or autoplay blocked");
+      alert("Click play button or check if music file exists!");
+    });
+    isPlaying = true;
+    btn.classList.add('playing');
+    btn.textContent = '🎵';
+  }
+}
+
+function startMusic() {
+  const audio = document.getElementById("music");
+  
+  // Try to load music from common sources
+  if (!audio.src) {
+    audio.src = "CinnamonGirl.mp3";
+  }
+  
+  audio.play().catch(e => {
+    console.log("Autoplay blocked, user must click music button");
+  });
+  
+  isPlaying = true;
+  document.getElementById('musicToggle').classList.add('playing');
+  nextPage('page2');
+}
+
+// ===== Page 2: Love Question =====
+function loveYes() {
+  const msg = document.getElementById('loveMsg');
+  const messages = [
+    "I knew it… wana tanlovek tkr 🧸💋",
+];
+  
+  msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+  msg.style.display = 'block';
+   
+  // Create many floating hearts
+  for (let i = 0; i < 35; i++) {
+    setTimeout(createFloatingHeart, i * 80);
+  }
+  
+  // Create sparkles
+  for (let i = 0; i < 50; i++) {
+    setTimeout(createSparkle, i * 60);
+  }
+  
+  // Intensive rain during celebration
+  for (let i = 0; i < 25; i++) {
+    setTimeout(createRain, i * 100);
+  }
+  
+  setTimeout(() => nextPage('page3'), 3500);
+}
+
+// ===== Rain Animation =====
+function createRain() {
+  const el = document.createElement('div');
+  el.textContent = rainSymbols[Math.floor(Math.random() * rainSymbols.length)];
+  el.className = 'rainSymbol';
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.fontSize = (15 + Math.random() * 40) + 'px';
+  el.style.animationDuration = (3 + Math.random() * 6) + 's';
+  el.style.opacity = (0.6 + Math.random() * 0.4);
+  document.body.appendChild(el);
+  
+  setTimeout(() => el.remove(), 10000);
+}
+
+// Increased rain frequency across all pages
+setInterval(createRain, 180);
+
+// ===== Page 3: Secret Code =====
+document.getElementById("imageInput").addEventListener("change", function(e) {
+  if (!this.files[0]) return;
+  
+  const file = this.files[0];
+  const reader = new FileReader();
+  const statusDiv = document.getElementById("codeStatus");
+  
+  reader.onload = async function() {
+    try {
+      const buffer = reader.result;
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      
+      console.log("File hash:", hashHex);
+      console.log("Expected hash:", correctHash);
+      
+      if (hashHex === correctHash) {
+        statusDiv.textContent = "✅ Code Correct! 🎉 Quiz 🙊...";
+        statusDiv.style.color = "#28a745";
+        
+        // Create celebration sparkles and rain
+        for (let i = 0; i < 60; i++) {
+          setTimeout(createSparkle, i * 30);
+        }
+        for (let i = 0; i < 40; i++) {
+          setTimeout(createRain, i * 40);
+        }
+        
+        setTimeout(() => {
+          nextPage('page4');
+          showQuestion();
+        }, 1500);
+      } else {
+        statusDiv.textContent = "❌ Code Wrong 😢 3awd 3awtany code image fiha smiytna bjoj...💐🧸";
+        statusDiv.style.color = "rgba" ;
+      }
+    } catch(err) {
+      console.error("Error:", err);
+      statusDiv.textContent = "❌ Error: " + err.message;
+      statusDiv.style.color = "#ff6b9d";
+    }
+  }
+  
+  reader.onerror = function() {
+    statusDiv.textContent = "❌ File reading error";
+    statusDiv.style.color = "#ff6b9d";
+  }
+  
+  reader.readAsArrayBuffer(file);
+});
+
+// ===== Quiz =====
+function showQuestion() {
+  if (currentQ < questions.length) {
+    document.getElementById("question").textContent = questions[currentQ];
+    document.getElementById("questionCounter").textContent = `❤️ Question ${currentQ + 1}/${questions.length} ❤️`;
+    document.getElementById("answerInput").value = '';
+    document.getElementById("answerInput").focus();
+  } else {
+    nextPage('page5');
+    displayAnswers();
+    
+    // Massive celebration on final page
+    for (let i = 0; i < 100; i++) {
+      setTimeout(createRain, i * 30);
+    }
+    for (let i = 0; i < 50; i++) {
+      setTimeout(createFloatingHeart, i * 50);
+    }
+    for (let i = 0; i < 80; i++) {
+      setTimeout(createSparkle, i * 25);
+    }
+  }
+}
+
+function submitAnswer() {
+  const ans = document.getElementById("answerInput").value.trim();
+  if (ans === "") {
+    alert("Katb chi haja 😅 Chno ghadi tgul lia ?");
+    return;
+  }
+  
+  userAnswers.push(ans);
+  currentQ++;
+  
+  // Create sparkles and hearts on answer
+  for (let i = 0; i < 15; i++) {
+    setTimeout(createSparkle, i * 20);
+  }
+  for (let i = 0; i < 10; i++) {
+    setTimeout(createRain, i * 40);
+  }
+  
+  showQuestion();
+}
+
+function displayAnswers() {
+  const div = document.getElementById("allAnswers");
+  let html = "<h3>🌺We Love Story🌺</h3><ol>";
+  
+  userAnswers.forEach((a, i) => {
+    html += `<li><strong>Q${i + 1}:</strong> ${a}</li>`;
+  });
+  
+  html += "</ol>";
+  div.innerHTML = html;
+}
+
+// ===== Floating Hearts =====
+function createFloatingHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'floating';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  heart.style.fontSize = (30 + Math.random() * 60) + 'px';
+  heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+  document.body.appendChild(heart);
+  
+  setTimeout(() => heart.remove(), 10000);
+}
+
+setInterval(createFloatingHeart, 300);
+
+// ===== Sparkles =====
+function createSparkle() {
+  const sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.textContent = '🧸';
+  sparkle.style.left = Math.random() * 100 + 'vw';
+  sparkle.style.top = Math.random() * 100 + 'vh';
+  
+  const tx = (Math.random() - 0.5) * 200;
+  const ty = (Math.random() - 0.5) * 200;
+  sparkle.style.setProperty('--tx', tx + 'px');
+  sparkle.style.setProperty('--ty', ty + 'px');
+  
+  document.body.appendChild(sparkle);
+  setTimeout(() => sparkle.remove(), 1000);
+}
+
+// Occasional sparkles during normal view
+setInterval(() => {
+  if (Math.random() > 0.6) {
+    createSparkle();
+  }
+}, 800);
+
+// ===== Initialize =====
+showPage('page1');
+</script>
+</body>
+</html>
