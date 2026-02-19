@@ -3,11 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <title>For Ilyass 💖 Romantic Rain</title>
+  
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+#board{
+  width:350px;
+  height:350px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  grid-template-rows:repeat(7,1fr);
+  border:3px solid white;   
+}
+
+.cell{
+  width:100%;
+  height:100%;
+  border:1px solid white;
+  box-sizing:border-box;
+}
+
+#pieces{
+  width:360px;
+  margin:20px auto;
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  justify-content:center;
+}
+
+.piece{
+  width:50px;
+  height:50px;
+  background-image:url('image.jpg');
+  background-size:350px 350px;
+  cursor:pointer;
 }
 
 body {
@@ -508,20 +537,33 @@ p {
     <button onclick="loveYes()" style="background: linear-gradient(135deg, #28a745, #20c997); font-size: 24px; padding: 20px 60px;">
       Yes 😻 Bezzaf
     </button>
-    <button onclick="alert('Try again 😉 I knew it... wana tanlovek ktr o bzaaaf🧸💋)" style="background: linear-gradient(135deg, #dc3545, #c82333); font-size: 24px; padding: 20px 60px;">
-      No 😿
-    </button>
+    <button onclick="alert('Try again 😉 I knew it... wana tanlovek ktr o bzaaaf🧸💋')" 
+style="background: linear-gradient(135deg, #dc3545, #c82333); font-size: 24px; padding: 20px 60px;">
+No 😿
+</button>
   </div>
   <div id="loveMsg" style="margin-top: 40px; font-size: 28px; color: #ffebef; display: none;"></div>
 </section>
 
-<section id="page3">
-  <h1>🔒 Unlock The Quiz 🔐</h1>
-  <p style="font-size: 20px; margin: 30px 0;">code 3ibara 3an image kayna 3ndk tatjm3 binatna, fkr chnahiya 🦋🍒🙊</p>
-  <input type="file" id="imageInput" accept="image/*">
-  <p id="codeStatus" style="margin-top: 30px; font-size: 18px;"></p>
-</section>
+  <section id="page3" class="page">
 
+<h2 style="font-size:40px;color:#ff4d88;">🧩 Challenge Time 👻</h2>
+<p style="font-size:22px;">clique 3la tswira okhtar makan monasib liha f cadre 9bel 5 d9aye9 ⏳💖</p>
+
+<div id="timer" style="font-size:28px;margin:15px;color:#e6005c;">
+ ⏳ 05:00
+</div>
+
+<!-- CADRE KHAWI -->
+<div id="board"></div>
+
+<!-- PIECES TAHT -->
+<div id="pieces"></div>
+
+<div id="message" style="font-size:22px;margin-top:20px;"></div>
+
+</section>
+  
 <section id="page4">
   <div class="quiz-container">
     <h1>Quiz: 3la 3al9tna 💌</h1>
@@ -672,9 +714,14 @@ function loveYes() {
     setTimeout(createRain, i * 100);
   }
   
-  setTimeout(() => nextPage('page3'), 3500);
+  setTimeout(() => {
+  nextPage('page3');
+  timeLeft=300;
+  createBoard();
+  createPieces();
+  startTimer();
+}, 3500);
 }
-
 // ===== Rain Animation =====
 function createRain() {
   const el = document.createElement('div');
@@ -692,58 +739,104 @@ function createRain() {
 // Increased rain frequency across all pages
 setInterval(createRain, 180);
 
-// ===== Page 3: Secret Code =====
-document.getElementById("imageInput").addEventListener("change", function(e) {
-  if (!this.files[0]) return;
-  
-  const file = this.files[0];
-  const reader = new FileReader();
-  const statusDiv = document.getElementById("codeStatus");
-  
-  reader.onload = async function() {
-    try {
-      const buffer = reader.result;
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      
-      console.log("File hash:", hashHex);
-      console.log("Expected hash:", correctHash);
-      
-      if (hashHex === correctHash) {
-        statusDiv.textContent = "✅ Code Correct! 🎉 Quiz 🙊...";
-        statusDiv.style.color = "#28a745";
-        
-        // Create celebration sparkles and rain
-        for (let i = 0; i < 60; i++) {
-          setTimeout(createSparkle, i * 30);
-        }
-        for (let i = 0; i < 40; i++) {
-          setTimeout(createRain, i * 40);
-        }
-        
-        setTimeout(() => {
-          nextPage('page4');
-          showQuestion();
-        }, 1500);
-      } else {
-        statusDiv.textContent = "❌ Code Wrong 😢 3awd 3awtany code image fiha smiytna bjoj...💐🧸";
-        statusDiv.style.color = "rgba" ;
-      }
-    } catch(err) {
-      console.error("Error:", err);
-      statusDiv.textContent = "❌ Error: " + err.message;
-      statusDiv.style.color = "#ff6b9d";
+// ===== PUZZLE SYSTEM 5x5 =====
+const board = document.getElementById("board");
+const piecesContainer = document.getElementById("pieces");
+const message = document.getElementById("message");
+const timerDisplay = document.getElementById("timer");
+
+let selectedPiece = null;
+let timeLeft = 300;
+let timer;
+
+// TIMER
+function startTimer(){
+  timer = setInterval(()=>{
+    timeLeft--;
+
+    let min = Math.floor(timeLeft/60);
+    let sec = timeLeft%60;
+
+    timerDisplay.innerHTML =
+      `⏳ ${min<10?'0'+min:min}:${sec<10?'0'+sec:sec}`;
+
+    if(timeLeft<=0){
+      clearInterval(timer);
+      message.innerHTML="😿 Time's up!";
+      setTimeout(()=>location.reload(),2000);
     }
+  },1000);
+}
+
+// CREATE BOARD
+function createBoard(){
+  board.innerHTML="";
+  for(let i=0;i<25;i++){
+    const cell=document.createElement("div");
+    cell.classList.add("cell");
+    cell.dataset.index=i;
+
+    cell.addEventListener("click",()=>{
+      if(selectedPiece){
+        if(cell.dataset.index==selectedPiece.dataset.index){
+          cell.appendChild(selectedPiece);
+          selectedPiece=null;
+          checkWin();
+        }
+      }
+    });
+
+    board.appendChild(cell);
   }
-  
-  reader.onerror = function() {
-    statusDiv.textContent = "❌ File reading error";
-    statusDiv.style.color = "#ff6b9d";
+}
+
+// CREATE PIECES
+function createPieces(){
+  piecesContainer.innerHTML="";
+  let numbers=[];
+  for(let i=0;i<25;i++){numbers.push(i);}
+  numbers.sort(()=>Math.random()-0.5);
+
+  numbers.forEach(num=>{
+    const piece=document.createElement("div");
+    piece.classList.add("piece");
+    piece.dataset.index=num;
+
+    let row = Math.floor(num/5);
+    let col = num%5;
+
+    piece.style.backgroundPosition =
+      `-${col*70}px -${row*70}px`;
+
+    piece.addEventListener("click",()=>{
+      selectedPiece = piece;
+    });
+
+    piecesContainer.appendChild(piece);
+  });
+}
+
+// CHECK WIN
+function checkWin(){
+  const cells=document.querySelectorAll(".cell");
+  let correct=true;
+
+  cells.forEach(cell=>{
+    if(!cell.firstChild ||
+       cell.dataset.index!=cell.firstChild.dataset.index){
+      correct=false;
+    }
+  });
+
+  if(correct){
+    clearInterval(timer);
+    message.innerHTML="🎉 Mabrouk! Kmleti Puzzle 💖";
+    setTimeout(()=>{
+      showPage('page4');
+      showQuestion();
+    },2000);
   }
-  
-  reader.readAsArrayBuffer(file);
-});
+}
 
 // ===== Quiz =====
 function showQuestion() {
